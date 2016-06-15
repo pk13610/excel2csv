@@ -14,22 +14,34 @@ namespace EXCEL2CSV
         public static List<string> ConverseExcelToCSV(string fileName)
         {
             List<string> strList = new List<string>();
-            FileStream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-            var util = TransferDataFactory.GetUtil(fileName);
-            var tables = util.GetTables(stream);
+            FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
 
-            foreach (var table in tables)
+            try
             {
-                var csv = TransferDataFactory.GetUtil(DataFileType.CSV);
-                //var mStream = util.GetStream(data);
-                var mStream = csv.GetStream(table);
+                var util = TransferDataFactory.GetUtil(fileName);
+                var tables = util.GetTables(fs);
 
-                if (mStream.CanRead)
+                foreach (var table in tables)
                 {
-                    StreamReader reader = new StreamReader(mStream, Encoding.UTF8);
-                    strList.Add(reader.ReadToEnd());
+                    var csv = TransferDataFactory.GetUtil(DataFileType.CSV);
+                    var data = csv.GetStream(table);
+
+                    if (data.CanRead)
+                    {
+                        StreamReader reader = new StreamReader(data, Encoding.UTF8);
+                        strList.Add(reader.ReadToEnd());
+                    }
                 }
             }
+            catch (System.Exception ex)
+            {
+            	
+            }
+            finally
+            {
+                fs.Close();
+            }
+
             return strList;
         }
     }
