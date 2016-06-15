@@ -1,5 +1,5 @@
 # excel2csv
-### A tool for Excel and CSV convertion
+### Excel and CSV Conversion Tool
 
 DEP:   
 - [http://npoi.codeplex.com/](http://npoi.codeplex.com/ "NPOI")   
